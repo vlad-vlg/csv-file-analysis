@@ -4,10 +4,13 @@ import tkinter as tk
 from tkinter.scrolledtext import ScrolledText as st
 from tkinter import messagebox as mb
 from tkinter import filedialog as fd
+import os
+
 
 # Диалог открытия файла
 def do_dialog():
-    name = fd.askopenfilename()
+    my_dir = os.getcwd()
+    name = fd.askopenfilename(initialdir=my_dir)
     return name
 
 # Обработчик нажатия кнопки
