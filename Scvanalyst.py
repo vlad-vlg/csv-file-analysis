@@ -1,11 +1,11 @@
-# Программа анализа .scv файлов
+# Программа анализа .csv файлов
 
 import tkinter as tk
 from tkinter.scrolledtext import ScrolledText as st
 from tkinter import messagebox as mb
 from tkinter import filedialog as fd
 import os
-
+import pandas as pd
 
 # Диалог открытия файла
 def do_dialog():
@@ -13,15 +13,26 @@ def do_dialog():
     name = fd.askopenfilename(initialdir=my_dir)
     return name
 
+# Обработка csv файла при помощи pandas
+def pandas_read_csv(file_name):
+    df = pd.read_csv(file_name, header=None, sep=';')
+    cnt_rows = df.shape[0]
+    cnt_columns = df.shape[1]
+    label_11['text'] = cnt_rows
+    label_21['text'] = cnt_columns
+    return df
+
 # Обработчик нажатия кнопки
 def process_button():
-    do_dialog()
+    file_name = do_dialog()
+    label_01['text'] = file_name
+    pandas_read_csv(file_name)
     mb.showinfo(title=None, message='Готово')
 
 #Создание главного окна
 window = tk.Tk()
-window.geometry('550x550')
-window.title('Программа анализа .scv файлов')
+window.geometry('550x550+300+200')
+window.title('Программа анализа .csv файлов')
 
 # Создание меток вывода
 label_00 = tk.Label(text = 'Файл:')
@@ -42,7 +53,7 @@ label_20.grid(row=2, column=0, padx=10, pady=10, sticky='e')
 label_21 = tk.Label(text = '')
 label_21.grid(row=2, column=1, sticky='w')
 
-# Создание текстового вывода
+# Создание текстового вывода с прокруткой
 output_text = st(height=22, width=50)
 output_text.grid(row=3, column=1, padx=10, pady=10, sticky='w')
 
