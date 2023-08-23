@@ -3,9 +3,16 @@
 import tkinter as tk
 from tkinter.scrolledtext import ScrolledText as st
 from tkinter import messagebox as mb
+from tkinter import filedialog as fd
+
+# Диалог открытия файла
+def do_dialog():
+    name = fd.askopenfilename()
+    return name
 
 # Обработчик нажатия кнопки
 def process_button():
+    do_dialog()
     mb.showinfo(title=None, message='Готово')
 
 #Создание главного окна
