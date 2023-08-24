@@ -46,22 +46,22 @@ window.geometry('550x550+300+200')
 window.title('Программа анализа .csv файлов')
 
 # Создание меток вывода
-label_00 = tk.Label(text = 'Файл:')
+label_00 = tk.Label(text='Файл:')
 label_00.grid(row=0, column=0, padx=10, pady=10, sticky='e')
 
-label_01 = tk.Label(window, text = '', relief='sunken', bg='azure', bd=3)
+label_01 = tk.Label(window, text='', anchor='w', relief='sunken', bg='azure', bd=3)
 label_01.grid(row=0, column=1, padx=10, pady=10, sticky='ew')
 
-label_10 = tk.Label(text = 'Строк:')
+label_10 = tk.Label(text='Строк:')
 label_10.grid(row=1, column=0, padx=10, pady=10, sticky='e')
 
-label_11 = tk.Label(text = '', relief='sunken', bg='azure', bd=3)
+label_11 = tk.Label(text='', relief='sunken', bg='azure', bd=3)
 label_11.grid(row=1, column=1, padx=10, pady=10, sticky='ew')
 
-label_20 = tk.Label(text = 'Столбцов:')
+label_20 = tk.Label(text='Столбцов:')
 label_20.grid(row=2, column=0, padx=10, pady=10, sticky='e')
 
-label_21 = tk.Label(text = '', relief='sunken', bg='azure', bd=3)
+label_21 = tk.Label(text='', relief='sunken', bg='azure', bd=3)
 label_21.grid(row=2, column=1, padx=10, pady=10, sticky='ew')
 
 # Создание текстового вывода с прокруткой
