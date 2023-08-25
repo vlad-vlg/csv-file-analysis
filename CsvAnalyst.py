@@ -15,7 +15,7 @@ def do_dialog():
 
 # Обработка csv файла при помощи pandas
 def pandas_read_csv(file_name):
-    df = pd.read_csv(file_name, header=None, sep=';')
+    df = pd.read_csv(file_name, header=[0], sep=';')
     cnt_rows = df.shape[0]
     cnt_columns = df.shape[1]
     label_11['text'] = cnt_rows
@@ -30,14 +30,27 @@ def get_column(df, column_ix):
         lst.append(df.iat[i, column_ix])
     return lst
 
+# Если в этом поле Имя, пусть вернет True
+def meet_name(field):
+    checkfor = ['Вера', 'Анатолий', 'Мария', 'Артём', 'Алексей',
+     'Наталья', 'Оксана', 'Галина', 'Марина', 'Вероника', 'Андрей',
+     'Екатерина', 'Борис', 'Диана', 'Владимир', 'Николай', 'Павел',
+     'Денис', 'Дмитрий', 'Олег', 'Игорь', 'Татьяна', 'Анна', 'Александр',
+     'Александра', 'Анастасия', 'Никита', 'Елена', 'Тамара']
+    for s in checkfor:
+        if s in str(field):  # Нашлось!
+            return True
+    return False  # Ничего не совпало!
+
 # Обработчик нажатия кнопки
 def process_button():
     file_name = do_dialog()
     label_01['text'] = file_name
     df = pandas_read_csv(file_name)
-    lst = get_column(df, 0)
+    lst = get_column(df, 2)
     for item in lst:
-        output_text.insert(tk.END, str(item) + os.linesep)
+        output_text.insert(tk.END, str(item) + ' ' 
+        + str(meet_name(item)) + os.linesep)
     mb.showinfo(title=None, message='Готово')
 
 # Создание главного окна
