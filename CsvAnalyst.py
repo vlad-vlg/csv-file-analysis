@@ -57,6 +57,30 @@ def list_meet_name(fields_list):
     # Не набралось нужного количества совпадений
     return False, ratio
 
+# Если в этом поле адрес e-mail, пусть вернет True
+def meet_email(field):
+    checkfor = ['@mail.ru', '@yandex.ru', '@rambler.ru', '@gmail.com', '@yahoo.com']
+    for s in checkfor:
+        if s in str(field):  # Нашлось!
+            return True
+    return False  # Ничего не совпало!
+
+# если в этом списке многие элементы содержат адрес e-mail, пусть вернет True
+def list_meet_email(fields_list):
+    counter_total = 0
+    counter_meet = 0
+    for list_item in fields_list:
+        counter_total += 1
+        if meet_email(list_item):
+            counter_meet += 1
+    # Конец подсчета
+    ratio = counter_meet / counter_total
+    if ratio > 0.5:
+        return True, ratio
+    # Не набралось нужного количества совпадений
+    return False, ratio
+
+
 # Если в этом поле дата в формате АМ/РМ, пусть вернет True
 def meet_date_am_pm(field):
     checkfor = [' AM', ' PM']
@@ -95,16 +119,22 @@ def check_all_columns(df):
             + '%.' + os.linesep * 2)
             continue  # Все нашли, можно идти к следующему столбцу
         # Второй критерий
-        result2 = list_meet_date_am_pm(lst)
+        result2 = list_meet_email(lst)
         if result2[0]:
             output_text.insert(tk.END, 'В столбце ' + str(i+1)
-            + ' предположительно содержится дата в формате АМ/РМ.' + os.linesep)
+            + ' предположительно содержится адрес e-mail' + os.linesep)
             output_text.insert(tk.END, 'Процент совпадений ' + '{:.2f}'.format(result2[1] * 100)
             + '%.' + os.linesep * 2)
             continue  # Все нашли, можно идти к следующему столбцу
-        
-        
-        
+        # Третий критерий
+        result3 = list_meet_date_am_pm(lst)
+        if result3[0]:
+            output_text.insert(tk.END, 'В столбце ' + str(i+1)
+            + ' предположительно содержится дата в формате АМ/РМ.' + os.linesep)
+            output_text.insert(tk.END, 'Процент совпадений ' + '{:.2f}'.format(result3[1] * 100)
+            + '%.' + os.linesep * 2)
+            continue  # Все нашли, можно идти к следующему столбцу
+
         # Соответствия критериям не найдено
         output_text.insert(tk.END, 'Предположений для столбца ' + str(i+1)
             + ' не найдено.' + os.linesep * 2)
