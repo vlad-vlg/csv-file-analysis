@@ -53,6 +53,28 @@ def list_meet_last_name(fields_list):
     # Не набралось нужного количества совпадений
     return False, ratio
 
+# Если в этом поле Отчество, пусть вернет True
+def meet_middle_name(field):
+    checkfor = ['вич', 'вна']
+    for s in checkfor:
+        if s in str(field):  # Нашлось!
+            return True
+    return False  # Ничего не совпало!
+
+# если в этом списке многие элементы содержат Отчество, пусть вернет True
+def list_meet_middle_name(fields_list):
+    counter_total = 0
+    counter_meet = 0
+    for list_item in fields_list:
+        counter_total += 1
+        if meet_middle_name(list_item):
+            counter_meet += 1
+    # Конец подсчета
+    ratio = counter_meet / counter_total
+    if ratio > 0.1:
+        return True, ratio
+    # Не набралось нужного количества совпадений
+    return False, ratio
 
 # Если в этом поле Имя, пусть вернет True
 def meet_name(field):
@@ -163,6 +185,14 @@ def check_all_columns(df):
             output_text.insert(tk.END, 'В столбце ' + str(i+1)
             + ' предположительно содержится фамилия.' + os.linesep)
             output_text.insert(tk.END, 'Процент совпадений ' + '{:.2f}'.format(result4[1] * 100)
+            + '%.' + os.linesep * 2)
+            continue  # Все нашли, можно идти к следующему столбцу
+        # Пятый критерий
+        result5 = list_meet_middle_name(lst)
+        if result5[0]:
+            output_text.insert(tk.END, 'В столбце ' + str(i+1)
+            + ' предположительно содержится отчество.' + os.linesep)
+            output_text.insert(tk.END, 'Процент совпадений ' + '{:.2f}'.format(result5[1] * 100)
             + '%.' + os.linesep * 2)
             continue  # Все нашли, можно идти к следующему столбцу
 
