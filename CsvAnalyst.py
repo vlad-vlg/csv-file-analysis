@@ -42,7 +42,7 @@ def meet_name(field):
             return True
     return False  # Ничего не совпало!
 
-# если в этом списке многте элементы содержат Имя, пусть вернет True
+# если в этом списке многие элементы содержат Имя, пусть вернет True
 def list_meet_name(fields_list):
     counter_total = 0
     counter_meet = 0
@@ -55,21 +55,35 @@ def list_meet_name(fields_list):
         return True
     return False  # Не набралось нужного количества совпадений
 
+# Пройти все столбцы
+def check_all_columns(df):
+    columns_cnt = df.shape[1]
+    for i in range(columns_cnt):  # От 0 до columns_cnt-1
+        lst = get_column(df, i)
+        if list_meet_name(lst):
+            output_text.insert(tk.END, 'В столбце ' + str(i+1)
+            + ' предположительно содержится имя.' + os.linesep)
+        else:
+            output_text.insert(tk.END, 'Предположений для столбца ' + str(i+1)
+            + ' не найдено.' + os.linesep)
+
+
 # Обработчик нажатия кнопки
 def process_button():
     file_name = do_dialog()
     label_01['text'] = file_name
     df = pandas_read_csv(file_name)
-    lst = get_column(df, 2)
+#    lst = get_column(df, 2)
 #    for item in lst:
 #        output_text.insert(tk.END, str(item) + ' ' 
 #        + str(meet_name(item)) + os.linesep)
-    if list_meet_name(lst):
-        output_text.insert(tk.END, 'В списке предположительно содержится имя.' 
-        + os.linesep)
-    else:
-        output_text.insert(tk.END, 'Предположений для списка не найдено.' 
-        + os.linesep)
+#    if list_meet_name(lst):
+#        output_text.insert(tk.END, 'В списке предположительно содержится имя.' 
+#        + os.linesep)
+#    else:
+#        output_text.insert(tk.END, 'Предположений для списка не найдено.' 
+#        + os.linesep)
+    check_all_columns(df)
     mb.showinfo(title=None, message='Готово')
 
 # Создание главного окна
