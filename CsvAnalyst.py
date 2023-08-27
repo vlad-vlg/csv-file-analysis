@@ -30,6 +30,30 @@ def get_column(df, column_ix):
         lst.append(df.iat[i, column_ix])
     return lst
 
+# Если в этом поле Фамилия, пусть вернет True
+def meet_last_name(field):
+    checkfor = ['ов', 'ова', 'ин', 'ина', 'ев', 'ева', 'ко', 'ий']
+    for s in checkfor:
+        if s in str(field):  # Нашлось!
+            return True
+    return False  # Ничего не совпало!
+
+# если в этом списке многие элементы содержат Фамилию, пусть вернет True
+def list_meet_last_name(fields_list):
+    counter_total = 0
+    counter_meet = 0
+    for list_item in fields_list:
+        counter_total += 1
+        if meet_last_name(list_item):
+            counter_meet += 1
+    # Конец подсчета
+    ratio = counter_meet / counter_total
+    if ratio > 0.5:
+        return True, ratio
+    # Не набралось нужного количества совпадений
+    return False, ratio
+
+
 # Если в этом поле Имя, пусть вернет True
 def meet_name(field):
     checkfor = ['Вера', 'Анатолий', 'Мария', 'Артём', 'Алексей',
@@ -79,7 +103,6 @@ def list_meet_email(fields_list):
         return True, ratio
     # Не набралось нужного количества совпадений
     return False, ratio
-
 
 # Если в этом поле дата в формате АМ/РМ, пусть вернет True
 def meet_date_am_pm(field):
@@ -132,6 +155,14 @@ def check_all_columns(df):
             output_text.insert(tk.END, 'В столбце ' + str(i+1)
             + ' предположительно содержится дата в формате АМ/РМ.' + os.linesep)
             output_text.insert(tk.END, 'Процент совпадений ' + '{:.2f}'.format(result3[1] * 100)
+            + '%.' + os.linesep * 2)
+            continue  # Все нашли, можно идти к следующему столбцу
+        # Четвертый критерий
+        result4 = list_meet_last_name(lst)
+        if result4[0]:
+            output_text.insert(tk.END, 'В столбце ' + str(i+1)
+            + ' предположительно содержится фамилия.' + os.linesep)
+            output_text.insert(tk.END, 'Процент совпадений ' + '{:.2f}'.format(result4[1] * 100)
             + '%.' + os.linesep * 2)
             continue  # Все нашли, можно идти к следующему столбцу
 
